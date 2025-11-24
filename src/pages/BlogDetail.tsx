@@ -15,16 +15,26 @@ const BlogDetail = () => {
         const data = await getBlogBySlug(slug);
         setBlog(data);
         if (data) {
+          const t = (s: string, n: number) => {
+            const x = s.trim();
+            if (x.length <= n) return x;
+            const cut = x.slice(0, n);
+            const i = cut.lastIndexOf(' ');
+            return (i > 0 ? cut.slice(0, i) : cut).trim();
+          };
+          const title = t(data.metaTitle || data.title, 60);
+          const desc = t(data.metaDescription || data.excerpt || '', 160);
           setPageMeta({
-            title: data.metaTitle || data.title,
-            description: data.metaDescription || data.excerpt || '',
+            title: title,
+            description: desc,
             url: window.location.origin + `/blog/${data.slug}`,
             image: data.coverImageUrl
           });
           injectJsonLd({
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
-            'headline': data.title,
+            'headline': title,
+            'description': desc,
             'image': data.coverImageUrl ? [data.coverImageUrl] : undefined,
             'datePublished': data.publishedAt,
             'dateModified': data.updatedAt,
@@ -33,7 +43,12 @@ const BlogDetail = () => {
               '@type': 'Organization',
               'name': 'Webnexa AI'
             },
-            'mainEntityOfPage': window.location.origin + `/blog/${data.slug}`
+            'mainEntityOfPage': {
+              '@type': 'WebPage',
+              '@id': window.location.origin + `/blog/${data.slug}`
+            },
+            'url': window.location.origin + `/blog/${data.slug}`,
+            'keywords': (data.tags || []).join(', ')
           });
           try {
             const all = await getAllBlogs();
