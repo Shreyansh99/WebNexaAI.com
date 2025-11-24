@@ -52,7 +52,7 @@ interface CaseStudy {
 
 // --- Custom Logo Component ---
 const WebnexaLogo = ({ className = "w-8 h-8", theme }: { className?: string; theme?: 'light' | 'dark' }) => (
-  <img src={import.meta.env.BASE_URL + 'image.png'} alt="Brand Logo" className={`${className} object-contain ${theme === 'dark' ? 'invert' : ''} dark:invert`} loading="lazy" />
+  <img src="/image.png" alt="Brand Logo" className={`${className} object-contain ${theme === 'dark' ? 'invert' : ''} dark:invert`} loading="lazy" />
 );
 
 // --- Reusable UI Components ---
