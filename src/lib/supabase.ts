@@ -16,6 +16,7 @@ export type Blog = {
   excerpt?: string;
   content: string;
   coverImageUrl?: string;
+  coverImageAlt?: string;
   authorName?: string;
   tags?: string[];
   metaTitle?: string;

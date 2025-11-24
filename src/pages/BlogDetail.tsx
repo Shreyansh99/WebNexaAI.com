@@ -77,7 +77,7 @@ const BlogDetail = () => {
       <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">{blog.title}</h1>
         {blog.coverImageUrl && (
-          <img src={blog.coverImageUrl} alt={blog.title} className="w-full rounded-2xl mb-8" loading="lazy" />
+          <img src={blog.coverImageUrl} alt={blog.coverImageAlt || blog.title} className="w-full rounded-2xl mb-8" loading="lazy" />
         )}
         <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
         <div className="mt-12 flex flex-wrap gap-4">

@@ -38,7 +38,7 @@ const BlogList = () => {
             {blogs.map((b) => (
               <a key={b.slug} href={`/blog/${b.slug}`} className="group block bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:border-slate-950 dark:hover:border-white transition-colors">
                 {b.coverImageUrl && (
-                  <img src={b.coverImageUrl} alt={b.title} className="w-full h-48 object-cover" loading="lazy" />
+                  <img src={b.coverImageUrl} alt={b.coverImageAlt || b.title} className="w-full h-48 object-cover" loading="lazy" />
                 )}
                 <div className="p-6">
                   <h2 className="text-xl font-bold mb-2 group-hover:text-blue-600">{b.title}</h2>
