@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BlogList from '@/src/pages/BlogList';
 import BlogDetail from '@/src/pages/BlogDetail';
 import PostBlog from '@/src/pages/PostBlog';
+import logoUrl from './image.png?url';
 import { 
   Menu, X, ArrowRight, ChevronDown, Check, 
   Zap, BarChart3, MessageSquare, 
@@ -52,7 +53,7 @@ interface CaseStudy {
 
 // --- Custom Logo Component ---
 const WebnexaLogo = ({ className = "w-8 h-8", theme }: { className?: string; theme?: 'light' | 'dark' }) => (
-  <img src="/image.png" alt="Brand Logo" className={`${className} object-contain ${theme === 'dark' ? 'invert' : ''} dark:invert`} loading="lazy" />
+  <img src={logoUrl} alt="Brand Logo" className={`${className} object-contain ${theme === 'dark' ? 'invert' : ''} dark:invert`} loading="lazy" />
 );
 
 // --- Reusable UI Components ---
