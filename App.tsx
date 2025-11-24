@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import BlogList from '@/src/pages/BlogList';
+import BlogDetail from '@/src/pages/BlogDetail';
+import PostBlog from '@/src/pages/PostBlog';
 import { 
   Menu, X, ArrowRight, ChevronDown, Check, 
   Zap, BarChart3, MessageSquare, 
@@ -47,11 +51,8 @@ interface CaseStudy {
 }
 
 // --- Custom Logo Component ---
-const WebnexaLogo = ({ className = "w-8 h-8" }: { className?: string }) => (
-  <svg viewBox="0 0 100 100" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path fillRule="evenodd" clipRule="evenodd" d="M50 10C35 10 25 20 25 35C25 45 32 50 40 55C32 60 25 65 25 75C25 90 35 100 50 100C65 100 75 90 75 75C75 65 68 60 60 55C68 50 75 45 75 35C75 20 65 10 50 10ZM50 25C58 25 60 30 60 35C60 40 55 43 50 45C45 43 40 40 40 35C40 30 42 25 50 25ZM50 75C42 75 40 70 40 65C40 60 45 57 50 55C55 57 60 60 60 65C60 70 58 75 50 75Z" />
-    <path d="M20 35C20 15 35 0 50 0C65 0 80 15 80 35C80 42 77 48 72 52C77 56 80 62 80 69C80 89 65 104 50 104C35 104 20 89 20 69C20 62 23 56 28 52C23 48 20 42 20 35ZM35 35C35 28 42 20 50 20C58 20 65 28 65 35C65 40 62 44 58 47C62 50 65 54 65 59C65 66 58 74 50 74C42 74 35 66 35 59C35 54 38 50 42 47C38 44 35 40 35 35Z" fill="currentColor" fillOpacity="0.2"/>
-  </svg>
+const WebnexaLogo = ({ className = "w-8 h-8", theme }: { className?: string; theme?: 'light' | 'dark' }) => (
+  <img src="/image.png" alt="Brand Logo" className={`${className} object-contain ${theme === 'dark' ? 'invert' : ''} dark:invert`} loading="lazy" />
 );
 
 // --- Reusable UI Components ---
@@ -203,13 +204,18 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
     { label: 'Process', href: '#process' },
     { label: 'Case Studies', href: '#cases' },
     { label: 'Why Us', href: '#why-us' },
+    { label: 'Blog', href: '/blog' },
   ];
 
   const handleNavClick = (href: string) => {
     setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.location.href = href;
     }
   };
 
@@ -217,8 +223,8 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/90 dark:bg-black/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-900 py-4' : 'bg-transparent py-8'}`}>
       <Container>
         <div className="flex items-center justify-between">
-          <a href="#" className="flex items-center gap-3 z-50 group">
-            <WebnexaLogo className="w-8 h-8 text-slate-950 dark:text-white transition-transform group-hover:rotate-180 duration-700" />
+          <a href="/" className="flex items-center gap-2 z-50">
+            <WebnexaLogo theme={theme} className="w-12 h-12" />
             <span className="text-xl font-extrabold tracking-tight text-slate-950 dark:text-white">WEBNEXA AI</span>
           </a>
 
@@ -592,9 +598,9 @@ const Services = () => {
                                     </li>
                                     ))}
                                 </ul>
-                                <div className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center group-hover:bg-slate-950 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center group-hover:bg-slate-950 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
                                     <ArrowUpRight className="w-5 h-5" />
-                                </div>
+                                </button>
                             </div>
                         </div>
                     </FadeIn>
@@ -934,7 +940,7 @@ const Footer = () => {
         <div className="grid lg:grid-cols-4 gap-12 lg:gap-24 items-start">
           <div className="lg:col-span-1">
              <a href="#" className="flex items-center gap-2 mb-8">
-              <WebnexaLogo className="w-8 h-8 text-slate-950 dark:text-white" />
+              <WebnexaLogo className="w-8 h-8" />
               <span className="text-xl font-extrabold tracking-tighter text-slate-950 dark:text-white">WEBNEXA</span>
             </a>
             <p className="text-slate-500 text-sm font-medium leading-relaxed mb-8">
@@ -983,27 +989,40 @@ const Footer = () => {
 
 // --- Main App ---
 
+const HomePage = () => (
+  <>
+    <Hero />
+    <TechMarquee />
+    <ProblemSolution />
+    <Stats />
+    <Services />
+    <Process />
+    <SocialProofBanner />
+    <CaseStudies />
+    <WhyUs />
+    <FAQ />
+    <CTA />
+  </>
+);
+
 const App = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <div className="min-h-screen font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-500">
-      <Header toggleTheme={toggleTheme} theme={theme} />
-      <main className="flex-grow">
-        <Hero />
-        <TechMarquee />
-        <ProblemSolution />
-        <Stats />
-        <Services />
-        <Process />
-        <SocialProofBanner />
-        <CaseStudies />
-        <WhyUs />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <div className="min-h-screen font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-500">
+        <Header toggleTheme={toggleTheme} theme={theme} />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog" element={<BlogList />} />
+            <Route path="/blog/:slug" element={<BlogDetail />} />
+            <Route path="/postblog" element={<PostBlog />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 };
 
