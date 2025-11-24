@@ -79,7 +79,11 @@ const BlogDetail = () => {
         {blog.coverImageUrl && (
           <img src={blog.coverImageUrl} alt={blog.coverImageAlt || blog.title} className="w-full rounded-2xl mb-8" loading="lazy" />
         )}
-        <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
+        { /<[^>]+>/.test(blog.content || '') ? (
+          <div className="prose dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: blog.content }} />
+        ) : (
+          <div className="prose dark:prose-invert max-w-none whitespace-pre-wrap">{blog.content}</div>
+        )}
         <div className="mt-12 flex flex-wrap gap-4">
           <a href="/#services" className="px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Explore Services</a>
           <a href="/#contact" className="px-5 py-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-white/5">Contact Us</a>
