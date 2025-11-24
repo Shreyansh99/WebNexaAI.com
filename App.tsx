@@ -211,9 +211,15 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
   const handleNavClick = (href: string) => {
     setIsOpen(false);
     if (href.startsWith('#')) {
+      if (window.location.pathname !== '/') {
+        window.location.href = '/' + href;
+        return;
+      }
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.hash = href;
       }
     } else {
       window.location.href = href;
@@ -246,7 +252,7 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
                 {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
 
-              <Button variant="primary" className="px-6 py-3 h-auto text-xs uppercase tracking-wider" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button variant="primary" className="px-6 py-3 h-auto text-xs uppercase tracking-wider" onClick={() => handleNavClick('#contact')}>
                 Get Free Consultation
               </Button>
             </div>
@@ -274,7 +280,7 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
                   {item.label}
                 </button>
               ))}
-              <Button className="mt-8" onClick={() => { setIsOpen(false); document.getElementById('contact')?.scrollIntoView(); }}>
+              <Button className="mt-8" onClick={() => { setIsOpen(false); handleNavClick('#contact'); }}>
                 Start Project
               </Button>
              </div>
@@ -990,21 +996,33 @@ const Footer = () => {
 
 // --- Main App ---
 
-const HomePage = () => (
-  <>
-    <Hero />
-    <TechMarquee />
-    <ProblemSolution />
-    <Stats />
-    <Services />
-    <Process />
-    <SocialProofBanner />
-    <CaseStudies />
-    <WhyUs />
-    <FAQ />
-    <CTA />
-  </>
-);
+const HomePage = () => {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
+    }
+  }, []);
+
+  return (
+    <>
+      <Hero />
+      <TechMarquee />
+      <ProblemSolution />
+      <Stats />
+      <Services />
+      <Process />
+      <SocialProofBanner />
+      <CaseStudies />
+      <WhyUs />
+      <FAQ />
+      <CTA />
+    </>
+  );
+};
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
