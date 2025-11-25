@@ -59,6 +59,7 @@ const PostBlog = () => {
   const autoSlug = useMemo(() => slugify(title), [title]);
   const editorRef = useRef<HTMLDivElement | null>(null);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const multiImageInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     setPageMeta({ title: 'Post a Blog | Webnexa AI', url: window.location.origin + '/postblog' });
@@ -120,8 +121,13 @@ const PostBlog = () => {
     const sel = window.getSelection();
     const target = editorRef.current;
     if (!sel || !sel.rangeCount || !target) {
-      target?.appendChild(img);
-      setContent(target?.innerHTML || '');
+      if (target) {
+        target.appendChild(img);
+        setContent(target.innerHTML || '');
+      } else {
+        const tag = `<img src="${url}" alt="" style="max-width:100%;height:auto;" />`;
+        setContent((prev) => (prev || '') + tag);
+      }
       return;
     }
     const range = sel.getRangeAt(0);
@@ -129,6 +135,14 @@ const PostBlog = () => {
     range.insertNode(img);
     sel.collapseToEnd();
     setContent(target.innerHTML);
+  }
+
+  async function insertImagesFromFiles(files: File[]) {
+    for (const f of files) {
+      if (f.type && f.type.startsWith('image/')) {
+        await insertImageFromFile(f);
+      }
+    }
   }
 
   function handleEditorInput() {
@@ -213,6 +227,11 @@ const PostBlog = () => {
             <label className="block text-sm font-semibold mb-2">Cover Image Alt Text</label>
             <input value={coverImageAlt} onChange={(e) => setCoverImageAlt(e.target.value)} className="w-full border rounded-lg p-3 bg-white dark:bg-black border-slate-300 dark:border-slate-700" />
           </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-semibold mb-2">Upload Content Images</label>
+            <input type="file" accept="image/*" multiple onChange={async (e) => { const list = e.target.files; const files: File[] = list ? Array.from(list) : []; if (files.length) await insertImagesFromFiles(files); e.target.value=''; }} className="w-full" />
+            <p className="text-xs text-slate-500 mt-1">Selected images will be uploaded and appended to content.</p>
+          </div>
         </div>
           <div>
             <label className="block text-sm font-semibold mb-2">Tags (comma separated)</label>
@@ -272,6 +291,8 @@ const PostBlog = () => {
                 <button type="button" className="px-3 py-1 rounded bg-slate-100 dark:bg-slate-800" onClick={() => document.execCommand('insertUnorderedList')}>UL</button>
                 <button type="button" className="px-3 py-1 rounded bg-slate-100 dark:bg-slate-800" onClick={() => imageInputRef.current?.click()}>Insert Image</button>
             <input ref={imageInputRef} type="file" accept="image/*" className="hidden" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => { const f = e.target.files?.[0] || null; if (f) await insertImageFromFile(f); e.target.value = ''; }} />
+            <button type="button" className="px-3 py-1 rounded bg-slate-100 dark:bg-slate-800" onClick={() => multiImageInputRef.current?.click()}>Insert Images</button>
+            <input ref={multiImageInputRef} type="file" accept="image/*" multiple className="hidden" onChange={async (e: React.ChangeEvent<HTMLInputElement>) => { const list = e.target.files; const files: File[] = list ? Array.from(list) : []; if (files.length) await insertImagesFromFiles(files); e.target.value = ''; }} />
               </div>
             </div>
             <div className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6">

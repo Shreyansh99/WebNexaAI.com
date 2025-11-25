@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { setPageMeta, injectJsonLd, getBlogBySlug, getAllBlogs, type Blog } from '@/src/lib/supabase';
-import { CalendarDays, Clock, User, Twitter, Linkedin, Link } from 'lucide-react';
+import { CalendarDays, Clock, User, Twitter, Linkedin, Link, Bookmark, Share2, Heart } from 'lucide-react';
 
 function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-').replace(/-+/g, '-');
@@ -82,6 +82,26 @@ const ProgressBar = ({ targetRef }: { targetRef: React.RefObject<HTMLDivElement>
   return <div className="fixed left-0 top-0 h-1 bg-blue-600 z-50" style={{ width: `${pct}%` }} />;
 };
 
+const StickyHeader = ({ title, onShare, onBookmark, bookmarked, onLike, likes }: { title: string; onShare: () => void; onBookmark: () => void; bookmarked: boolean; onLike: () => void; likes: number }) => (
+  <div className="fixed top-0 left-0 right-0 z-40 backdrop-blur bg-white/70 dark:bg-black/60 border-b border-slate-200 dark:border-slate-800 hidden md:block">
+    <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 h-14 flex items-center justify-between">
+      <div className="truncate font-semibold text-slate-900 dark:text-white">{title}</div>
+      <div className="flex items-center gap-3">
+        <button className="flex items-center gap-2 px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800" onClick={onLike}>
+          <Heart className="w-4 h-4" /> {likes}
+        </button>
+        <button className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center" onClick={onBookmark} aria-label="Bookmark">
+          <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-current' : ''}`} />
+        </button>
+        <button className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center" onClick={onShare} aria-label="Share">
+          <Share2 className="w-4 h-4" />
+        </button>
+        <a href="/#contact" className="px-3 py-1 rounded-lg bg-blue-600 text-white font-semibold">Book Consultation</a>
+      </div>
+    </div>
+  </div>
+);
+
 const Skeleton = () => (
   <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-24">
     <div className="h-6 w-40 bg-slate-200 dark:bg-slate-800 animate-pulse mb-6 rounded"></div>
@@ -104,6 +124,12 @@ const BlogDetail = () => {
   const [toc, setToc] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [showSticky, setShowSticky] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const [prevNext, setPrevNext] = useState<{ prev: Blog | null; next: Blog | null }>({ prev: null, next: null });
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -147,6 +173,15 @@ const BlogDetail = () => {
               })
               .slice(0, 3);
             setRelated(filtered);
+            const sorted = (all || []).slice().sort((a, b) => {
+              const ad = a.publishedAt ? new Date(a.publishedAt).getTime() : 0;
+              const bd = b.publishedAt ? new Date(b.publishedAt).getTime() : 0;
+              return ad - bd;
+            });
+            const idx = sorted.findIndex(b => b.slug === data.slug);
+            const prev = idx > 0 ? sorted[idx - 1] : null;
+            const next = idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null;
+            setPrevNext({ prev, next });
           } catch {}
         }
       } finally {
@@ -176,6 +211,53 @@ const BlogDetail = () => {
     return () => observer.disconnect();
   }, [blog]);
 
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    const found = Array.from(el.querySelectorAll('img')) as HTMLImageElement[];
+    const urls = found.map(i => i.src).filter(Boolean);
+    setImages(urls);
+  }, [blog]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const el = contentRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      setShowSticky(rect.top < -80);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!slug) return;
+    const bm = localStorage.getItem(`bookmark-${slug}`) === '1';
+    setBookmarked(bm);
+    const lc = parseInt(localStorage.getItem(`likes-${slug}`) || '0', 10);
+    setLikes(isNaN(lc) ? 0 : lc);
+  }, [slug]);
+
+  const handleShare = () => {
+    const url = window.location.href;
+    const title = document.title;
+    const tw = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+    window.open(tw, '_blank');
+  };
+
+  const handleBookmark = () => {
+    const v = !bookmarked;
+    setBookmarked(v);
+    if (slug) localStorage.setItem(`bookmark-${slug}`, v ? '1' : '0');
+  };
+
+  const handleLike = () => {
+    const n = likes + 1;
+    setLikes(n);
+    if (slug) localStorage.setItem(`likes-${slug}`, String(n));
+  };
+
   const readTime = useMemo(() => estimateReadTime(blog?.content || ''), [blog]);
   const category = useMemo(() => (blog?.tags && blog.tags[0]) || 'General', [blog]);
 
@@ -185,6 +267,16 @@ const BlogDetail = () => {
   return (
     <div className="bg-white dark:bg-black">
       <ProgressBar targetRef={contentRef} />
+      {showSticky && blog && (
+        <StickyHeader
+          title={blog.title}
+          onShare={handleShare}
+          onBookmark={handleBookmark}
+          bookmarked={bookmarked}
+          onLike={handleLike}
+          likes={likes}
+        />
+      )}
       <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-10">
         <nav className="text-sm text-slate-500 mb-6">
           <a href="/" className="hover:underline">Home</a>
@@ -202,7 +294,18 @@ const BlogDetail = () => {
           ))}
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4 text-slate-950 dark:text-white">{blog.title}</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-3 text-slate-950 dark:text-white">{blog.title}</h1>
+        <div className="flex items-center gap-3 mb-8">
+          <button className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800" onClick={handleLike}>
+            <Heart className="w-4 h-4" /> {likes}
+          </button>
+          <button className="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center" onClick={handleBookmark} aria-label="Bookmark">
+            <Bookmark className={`w-5 h-5 ${bookmarked ? 'fill-current' : ''}`} />
+          </button>
+          <button className="w-10 h-10 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center" onClick={handleShare} aria-label="Share">
+            <Share2 className="w-5 h-5" />
+          </button>
+        </div>
 
         <div className="flex flex-wrap items-center gap-4 text-slate-600 dark:text-slate-400 mb-8">
           <div className="flex items-center gap-2">
@@ -237,6 +340,37 @@ const BlogDetail = () => {
           />
 
           <div>
+            <div className="lg:hidden mb-4">
+              <button className="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-800" onClick={() => setMobileTocOpen(!mobileTocOpen)}>
+                On this page
+              </button>
+              {mobileTocOpen && (
+                <div className="mt-2 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+                  {toc.map(it => (
+                    <div key={it.id}>
+                      <button className={`text-left w-full py-1 ${activeId === it.id ? 'text-blue-600 font-semibold' : 'text-slate-600 dark:text-slate-400'} ${it.level === 3 ? 'pl-4' : ''}`} onClick={() => {
+                        const el = document.getElementById(it.id);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        setMobileTocOpen(false);
+                      }}>{it.text}</button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {images.filter(u => u !== blog.coverImageUrl).length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-xl font-bold mb-4">Images</h3>
+                <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {images.filter(u => u !== blog.coverImageUrl).map((u, idx) => (
+                    <a key={u + idx} href={u} target="_blank" rel="noreferrer" className="block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                      <img src={u} alt={blog.title} className="w-full h-40 object-cover" loading="lazy" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
             <div ref={contentRef} className="prose prose-lg dark:prose-invert max-w-none">
               { /<[^>]+>/.test(blog.content || '') ? (
                 <div dangerouslySetInnerHTML={{ __html: blog.content }} />
@@ -285,6 +419,25 @@ const BlogDetail = () => {
                       </div>
                     </a>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {(prevNext.prev || prevNext.next) && (
+              <div className="mt-16">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {prevNext.prev && (
+                    <a href={`/blog/${prevNext.prev.slug}`} className="group p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-600 transition-colors">
+                      <div className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Previous</div>
+                      <div className="text-lg font-bold group-hover:text-blue-600">{prevNext.prev.title}</div>
+                    </a>
+                  )}
+                  {prevNext.next && (
+                    <a href={`/blog/${prevNext.next.slug}`} className="group p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-600 transition-colors text-right md:text-left">
+                      <div className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Next</div>
+                      <div className="text-lg font-bold group-hover:text-blue-600">{prevNext.next.title}</div>
+                    </a>
+                  )}
                 </div>
               </div>
             )}
