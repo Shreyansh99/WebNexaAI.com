@@ -540,10 +540,22 @@ const Stats = () => {
 const Services = () => {
   const services: Service[] = [
     {
-      title: "AI Customer Acquisition",
-      description: "Automated lead generation, instant qualification, and intelligent nurturing that books meetings while you sleep.",
-      features: ["Lead Magnet Systems", "Instant Qualification", "Multi-channel Follow-up"],
+      title: "AI Sales system",
+      description: "Done-for-you system that guarantees qualified appointments monthly. AI responds within 60s, qualifies, nurtures, books, and follows up 7+ times.",
+      features: ["Guaranteed appointments/mo", "<60s AI response", "7+ auto follow-ups"],
       cta: "See How It Works"
+    },
+    {
+      title: "AI Customer Acquisition",
+      description: "Targeted Meta/Google campaigns combined with AI automation to guarantee predictable, qualified appointments every month.",
+      features: ["Targeted paid ads", "AI qualification & booking", "Guaranteed outcomes"],
+      cta: "Get Predictable Appointments"
+    },
+    {
+      title: "AI Virtual Receptionist & Voice Agents",
+      description: "24/7 AI phone answering with professional call handling, intelligent routing, and seamless system integration to reduce costs and scale instantly.",
+      features: ["24/7 call answering", "Intelligent call routing", "CRM integration"],
+      cta: "Talk to an AI Receptionist"
     },
     {
       title: "Business Process Automation",
@@ -594,16 +606,18 @@ const Services = () => {
                                     {idx === 1 && <Zap className="w-6 h-6 text-slate-950 dark:text-white" />}
                                     {idx === 2 && <MessageSquare className="w-6 h-6 text-slate-950 dark:text-white" />}
                                     {idx === 3 && <BarChart3 className="w-6 h-6 text-slate-950 dark:text-white" />}
+                                    {idx === 4 && <MessageSquare className="w-6 h-6 text-slate-950 dark:text-white" />}
+                                    {idx === 5 && <TrendingUp className="w-6 h-6 text-slate-950 dark:text-white" />}
                                 </div>
                                 <h3 className="text-2xl font-bold mb-4 text-slate-950 dark:text-white tracking-tight">{service.title}</h3>
                                 <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed font-medium">{service.description}</p>
                             </div>
                             <div className="flex items-center justify-between pt-8 border-t border-slate-100 dark:border-slate-900">
                                 <ul className="space-y-2">
-                                    {service.features.slice(0, 2).map((feature, i) => (
-                                    <li key={i} className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wide">
-                                        <div className="w-1 h-1 rounded-full bg-blue-500"></div> {feature}
-                                    </li>
+                                    {service.features.map((feature, i) => (
+                                        <li key={i} className="flex items-center gap-2 text-xs font-bold text-slate-500 uppercase tracking-wide">
+                                            <div className="w-1 h-1 rounded-full bg-blue-500"></div> {feature}
+                                        </li>
                                     ))}
                                 </ul>
                                 <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center group-hover:bg-slate-950 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
