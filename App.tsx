@@ -268,23 +268,24 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
             </button>
           </div>
 
-          {/* Mobile Nav Overlay */}
-          <div className={`fixed inset-0 bg-white dark:bg-black z-40 flex flex-col items-center justify-center transition-all duration-500 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-             <div className="flex flex-col gap-8 text-center">
-              {navItems.map((item) => (
-                <button 
-                  key={item.label} 
-                  onClick={() => handleNavClick(item.href)}
-                  className="text-4xl font-bold tracking-tighter text-slate-900 dark:text-white hover:text-slate-500"
-                >
-                  {item.label}
-                </button>
-              ))}
-              <Button className="mt-8" onClick={() => { setIsOpen(false); handleNavClick('#contact'); }}>
-                Start Project
-              </Button>
-             </div>
-          </div>
+          {isOpen && (
+            <div className="fixed inset-0 bg-white dark:bg-black z-40 flex flex-col items-center justify-center transition-opacity duration-300">
+               <div className="flex flex-col gap-8 text-center">
+                {navItems.map((item) => (
+                  <button 
+                    key={item.label} 
+                    onClick={() => handleNavClick(item.href)}
+                    className="text-4xl font-bold tracking-tighter text-slate-900 dark:text-white hover:text-slate-500"
+                  >
+                    {item.label}
+                  </button>
+                ))}
+                <Button className="mt-8" onClick={() => { setIsOpen(false); handleNavClick('#contact'); }}>
+                  Start Project
+                </Button>
+               </div>
+            </div>
+          )}
         </div>
       </Container>
     </header>
