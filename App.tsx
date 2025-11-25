@@ -8,7 +8,7 @@ import {
   Menu, X, ArrowRight, ChevronDown, Check, 
   Zap, BarChart3, MessageSquare, 
   Clock, Shield, Mail, Phone, MapPin,
-  Linkedin, Twitter, Instagram, ChevronUp, Sun, Moon, Star,
+  Linkedin, Twitter, Instagram, Facebook, ChevronUp, Sun, Moon, Star,
   TrendingUp, ArrowUpRight, Plus, Minus
 } from 'lucide-react';
 
@@ -302,7 +302,7 @@ const Hero = () => {
   const formattedPercentage = percentage.toFixed(1);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-40 pb-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-28 pb-16 overflow-hidden">
       <Container className="relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
           <div className="lg:col-span-7">
@@ -427,7 +427,7 @@ const TechMarquee = () => {
   ];
 
   return (
-    <div className="py-10 border-y border-slate-100 dark:border-slate-900 bg-slate-50/50 dark:bg-slate-900/20 overflow-hidden">
+  <div className="py-6 border-y border-slate-100 dark:border-slate-900 bg-slate-50/50 dark:bg-slate-900/20 overflow-hidden">
       <div className="relative flex overflow-x-hidden group">
         <div className="animate-marquee whitespace-nowrap flex items-center gap-40 px-12">
           {technologies.map((tech, idx) => (
@@ -452,7 +452,7 @@ const TechMarquee = () => {
 
 const ProblemSolution = () => {
   return (
-    <section className="py-32 bg-white dark:bg-black">
+  <section className="py-20 bg-white dark:bg-black">
       <Container>
         <div className="grid lg:grid-cols-2 gap-20">
           <FadeIn>
@@ -522,7 +522,7 @@ const Stats = () => {
   ];
 
   return (
-    <section className="py-24 border-y border-slate-100 dark:border-slate-900 bg-white dark:bg-black">
+  <section className="py-16 border-y border-slate-100 dark:border-slate-900 bg-white dark:bg-black">
        <Container>
          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
            {stats.map((stat, idx) => (
@@ -566,7 +566,7 @@ const Services = () => {
   ];
 
   return (
-    <section id="services" className="py-32 bg-slate-50 dark:bg-slate-950/50">
+  <section id="services" className="py-20 bg-slate-50 dark:bg-slate-950/50">
       <Container>
         <div className="grid lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
@@ -649,7 +649,7 @@ const Process = () => {
   ];
 
   return (
-    <section id="process" className="py-32 bg-white dark:bg-black text-slate-950 dark:text-white">
+  <section id="process" className="py-20 bg-white dark:bg-black text-slate-950 dark:text-white">
       <Container>
         <div className="grid lg:grid-cols-12 gap-16 mb-24">
           <div className="lg:col-span-6">
@@ -671,7 +671,7 @@ const Process = () => {
         <div className="border-t border-slate-200 dark:border-slate-800">
           {steps.map((step, idx) => (
             <FadeIn key={idx} delay={idx * 100}>
-              <div className="group py-16 border-b border-slate-200 dark:border-slate-800 grid md:grid-cols-12 gap-8 items-start transition-all hover:bg-slate-50 dark:hover:bg-slate-900/30 px-6 -mx-6 rounded-2xl">
+              <div className="group py-12 border-b border-slate-200 dark:border-slate-800 grid md:grid-cols-12 gap-8 items-start transition-all hover:bg-slate-50 dark:hover:bg-slate-900/30 px-6 -mx-6 rounded-2xl">
                 <div className="md:col-span-1 text-sm font-bold text-slate-300 dark:text-slate-700 tracking-widest font-mono">/{step.step}</div>
                 <div className="md:col-span-4">
                   <h3 className="text-3xl font-bold tracking-tight group-hover:translate-x-2 transition-transform duration-300">{step.title}</h3>
@@ -692,7 +692,7 @@ const Process = () => {
 };
 
 const SocialProofBanner = () => (
-  <section className="py-20 bg-blue-600 text-white text-center px-6">
+  <section className="py-14 bg-blue-600 text-white text-center px-6">
     <Container>
       <FadeIn>
         <div className="flex justify-center mb-6">
@@ -740,7 +740,7 @@ const CaseStudies = () => {
   ];
 
   return (
-    <section id="cases" className="py-32 bg-white dark:bg-black">
+  <section id="cases" className="py-20 bg-white dark:bg-black">
       <Container>
         <FadeIn>
            <div className="flex flex-col md:flex-row items-end justify-between mb-20">
@@ -793,7 +793,7 @@ const CaseStudies = () => {
 
 const WhyUs = () => {
   return (
-    <section id="why-us" className="py-32 bg-slate-50 dark:bg-black">
+  <section id="why-us" className="py-20 bg-slate-50 dark:bg-black">
        <Container>
          <FadeIn>
            <div className="text-center max-w-3xl mx-auto mb-20">
@@ -863,7 +863,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-32 bg-white dark:bg-black border-t border-slate-100 dark:border-slate-900">
+  <section className="py-20 bg-white dark:bg-black border-t border-slate-100 dark:border-slate-900">
       <Container>
         <div className="grid lg:grid-cols-12 gap-16">
           <div className="lg:col-span-4">
@@ -903,7 +903,7 @@ const FAQ = () => {
 
 const CTA = () => {
   return (
-    <section id="contact" className="py-32 bg-slate-50 dark:bg-black">
+  <section id="contact" className="py-20 bg-slate-50 dark:bg-black">
       <Container>
         <div className="bg-slate-950 dark:bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
             {/* Background Gradients */}
@@ -943,7 +943,7 @@ const CTA = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-white dark:bg-black border-t border-slate-100 dark:border-slate-900 py-24">
+    <footer className="bg-white dark:bg-black border-t border-slate-100 dark:border-slate-900 py-16">
       <Container>
         <div className="grid lg:grid-cols-4 gap-12 lg:gap-24 items-start">
           <div className="lg:col-span-1">
@@ -955,11 +955,17 @@ const Footer = () => {
               Building the intelligent infrastructures of tomorrow for forward-thinking businesses.
             </p>
             <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                <a href="https://www.linkedin.com/company/webnexaai" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
                     <Linkedin className="w-4 h-4" />
                 </a>
-                <a href="#" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                <a href="https://x.com/webnexaai" target="_blank" rel="noreferrer" aria-label="X" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
                     <Twitter className="w-4 h-4" />
+                </a>
+                <a href="https://www.instagram.com/webnexaai/" target="_blank" rel="noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                    <Instagram className="w-4 h-4" />
+                </a>
+                <a href="https://www.facebook.com/people/WebNexa-AI/100069311651133" target="_blank" rel="noreferrer" aria-label="Facebook" className="w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-900 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-950 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+                    <Facebook className="w-4 h-4" />
                 </a>
             </div>
           </div>
@@ -988,7 +994,7 @@ const Footer = () => {
         
         <div className="mt-24 pt-8 border-t border-slate-100 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
           <p>&copy; 2025 Webnexa AI. All rights reserved.</p>
-          <p>San Francisco, CA</p>
+          <p>Bangalore, INDIA</p>
         </div>
       </Container>
     </footer>

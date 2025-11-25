@@ -103,7 +103,7 @@ const StickyHeader = ({ title, onShare, onBookmark, bookmarked, onLike, likes }:
 );
 
 const Skeleton = () => (
-  <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-24">
+  <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-16">
     <div className="h-6 w-40 bg-slate-200 dark:bg-slate-800 animate-pulse mb-6 rounded"></div>
     <div className="h-10 w-3/4 bg-slate-200 dark:bg-slate-800 animate-pulse mb-4 rounded"></div>
     <div className="h-10 w-2/3 bg-slate-200 dark:bg-slate-800 animate-pulse mb-6 rounded"></div>
@@ -262,7 +262,7 @@ const BlogDetail = () => {
   const category = useMemo(() => (blog?.tags && blog.tags[0]) || 'General', [blog]);
 
   if (loading) return <Skeleton />;
-  if (!blog) return <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-24">Not found</div>;
+  if (!blog) return <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-16">Not found</div>;
 
   return (
     <div className="bg-white dark:bg-black">
@@ -277,7 +277,7 @@ const BlogDetail = () => {
           likes={likes}
         />
       )}
-      <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-10">
+      <div className="max-w-screen-lg mx-auto px-6 md:px-12 lg:px-16 py-8">
         <nav className="text-sm text-slate-500 mb-6">
           <a href="/" className="hover:underline">Home</a>
           <span className="mx-2">›</span>
@@ -404,7 +404,7 @@ const BlogDetail = () => {
             </div>
 
             {related.length > 0 && (
-              <div className="mt-16">
+              <div className="mt-12">
                 <h3 className="text-2xl font-bold mb-6">Related Posts</h3>
                 <div className="grid md:grid-cols-3 gap-6">
                   {related.map((b) => (
@@ -424,7 +424,7 @@ const BlogDetail = () => {
             )}
 
             {(prevNext.prev || prevNext.next) && (
-              <div className="mt-16">
+              <div className="mt-12">
                 <div className="grid md:grid-cols-2 gap-6">
                   {prevNext.prev && (
                     <a href={`/blog/${prevNext.prev.slug}`} className="group p-6 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-blue-600 transition-colors">

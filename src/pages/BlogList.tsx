@@ -28,7 +28,7 @@ const BlogList = () => {
   }, []);
 
   return (
-    <section className="py-24 bg-white dark:bg-black">
+    <section className="py-16 bg-white dark:bg-black">
       <div className="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-16">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-10">Latest Posts</h1>
         {loading ? (

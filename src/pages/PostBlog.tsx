@@ -174,7 +174,7 @@ const PostBlog = () => {
   }
 
   return (
-    <section className="py-24 bg-white dark:bg-black">
+    <section className="py-16 bg-white dark:bg-black">
       <div className="max-w-screen-md mx-auto px-6 md:px-12 lg:px-16">
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight mb-8">Create New Blog Post</h1>
         <div className="flex gap-3 mb-6">
