@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BlogList from '@/src/pages/BlogList';
 import BlogDetail from '@/src/pages/BlogDetail';
 import PostBlog from '@/src/pages/PostBlog';
+import DiscoveryCall from '@/src/pages/DiscoveryCall';
 import logoUrl from './image.png?url';
 import { 
   Menu, X, ArrowRight, ChevronDown, Check, 
@@ -252,7 +253,7 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
                 {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
 
-              <Button variant="primary" className="px-6 py-3 h-auto text-xs uppercase tracking-wider" onClick={() => handleNavClick('#contact')}>
+              <Button variant="primary" className="px-6 py-3 h-auto text-xs uppercase tracking-wider" onClick={() => handleNavClick('/discovery-call')}>
                 Get Free Consultation
               </Button>
             </div>
@@ -280,7 +281,7 @@ const Header = ({ toggleTheme, theme }: { toggleTheme: () => void, theme: 'light
                     {item.label}
                   </button>
                 ))}
-                <Button className="mt-8" onClick={() => { setIsOpen(false); handleNavClick('#contact'); }}>
+                <Button className="mt-8" onClick={() => { setIsOpen(false); handleNavClick('/discovery-call'); }}>
                   Start Project
                 </Button>
                </div>
@@ -328,7 +329,7 @@ const Hero = () => {
             </FadeIn>
 
             <FadeIn delay={400} className="flex flex-wrap gap-4">
-              <Button icon={ArrowRight} onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+              <Button icon={ArrowRight} onClick={() => { window.location.href = '/discovery-call'; }}>
                 Book Strategy Call
               </Button>
               <Button variant="outline" onClick={() => document.getElementById('cases')?.scrollIntoView({ behavior: 'smooth' })}>
@@ -590,7 +591,7 @@ const Services = () => {
                     <p className="text-slate-600 dark:text-slate-400 mb-10 text-lg font-medium">
                         No cookie-cutter solutions. We architect systems that fit your exact workflow, industry, and growth goals.
                     </p>
-                    <Button variant="outline" onClick={() => document.getElementById('contact')?.scrollIntoView()}>
+                    <Button variant="outline" onClick={() => { window.location.href = '/discovery-call'; }}>
                         Explore All Services
                     </Button>
                 </FadeIn>
@@ -620,7 +621,7 @@ const Services = () => {
                                         </li>
                                     ))}
                                 </ul>
-                                <button onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center group-hover:bg-slate-950 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
+                                <button onClick={() => { window.location.href = '/discovery-call'; }} className="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center group-hover:bg-slate-950 group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-black transition-colors">
                                     <ArrowUpRight className="w-5 h-5" />
                                 </button>
                             </div>
@@ -935,7 +936,7 @@ const CTA = () => {
                         Every day without automation is revenue lost. Book a free strategy call and we'll show you exactly how AI can transform your business.
                     </p>
                     <div className="flex flex-col items-center gap-8">
-                        <Button className="h-16 px-12 text-lg shadow-2xl hover:scale-105 transition-transform bg-white text-black hover:bg-slate-200 border-none">
+                        <Button className="h-16 px-12 text-lg shadow-2xl hover:scale-105 transition-transform bg-white text-black hover:bg-slate-200 border-none" onClick={() => { window.location.href = '/discovery-call'; }}>
                             Book Your Free Strategy Call
                         </Button>
                         <div className="flex flex-wrap justify-center gap-6 text-sm font-bold text-slate-400 uppercase tracking-wider">
@@ -1058,6 +1059,7 @@ const App = () => {
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/postblog" element={<PostBlog />} />
+            <Route path="/discovery-call" element={<DiscoveryCall />} />
           </Routes>
         </main>
         <Footer />

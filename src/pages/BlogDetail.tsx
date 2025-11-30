@@ -96,7 +96,7 @@ const StickyHeader = ({ title, onShare, onBookmark, bookmarked, onLike, likes }:
         <button className="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center" onClick={onShare} aria-label="Share">
           <Share2 className="w-4 h-4" />
         </button>
-        <a href="/#contact" className="px-3 py-1 rounded-lg bg-blue-600 text-white font-semibold">Book Consultation</a>
+        <a href="/discovery-call" className="px-3 py-1 rounded-lg bg-blue-600 text-white font-semibold">Book Consultation</a>
       </div>
     </div>
   </div>
@@ -386,7 +386,7 @@ const BlogDetail = () => {
                   <div className="text-slate-600 dark:text-slate-400">Book a free strategy call and we’ll design the system.</div>
                 </div>
                 <div className="flex gap-3">
-                  <a href="/#contact" className="px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Book Consultation</a>
+                  <a href="/discovery-call" className="px-5 py-3 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700">Book Consultation</a>
                   <a href="/#services" className="px-5 py-3 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-white/5">Explore Services</a>
                 </div>
               </div>
