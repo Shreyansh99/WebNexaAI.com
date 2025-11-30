@@ -6,8 +6,8 @@
 
 ## Headers
 - `Content-Type: application/json`
-- `apikey: {VITE_SUPABASE_ANON_KEY}`
-- `Authorization: Bearer {VITE_SUPABASE_ANON_KEY}`
+- `apikey: {VITEAuthorization_SUPABASE_ANON_KEY}`
+- `: Bearer {VITE_SUPABASE_ANON_KEY}`
 - `Prefer: return=representation`
 
 Server-side (optional):
