@@ -1048,12 +1048,14 @@ const HomePage = () => {
   );
 };
 
+const RouterAnalytics = () => { useAnalytics(); return null; };
+
 const App = () => {
   const { theme, toggleTheme } = useTheme();
-  useAnalytics();
 
   return (
     <BrowserRouter>
+      <RouterAnalytics />
       <div className="min-h-screen font-sans selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black flex flex-col bg-white dark:bg-black text-slate-900 dark:text-white transition-colors duration-500">
         <Header toggleTheme={toggleTheme} theme={theme} />
         <main className="flex-grow">
