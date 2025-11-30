@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useAnalytics } from './useAnalytics';
 import BlogList from '@/src/pages/BlogList';
 import BlogDetail from '@/src/pages/BlogDetail';
 import PostBlog from '@/src/pages/PostBlog';
@@ -1049,6 +1050,7 @@ const HomePage = () => {
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
+  useAnalytics();
 
   return (
     <BrowserRouter>
