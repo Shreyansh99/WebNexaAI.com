@@ -154,8 +154,8 @@ const BlogDetail = () => {
             'headline': title,
             'description': desc,
             'image': data.coverImageUrl ? [data.coverImageUrl] : undefined,
-            'datePublished': data.publishedAt,
-            'dateModified': data.updatedAt,
+            'datePublished': data.publishedAt || new Date().toISOString(),
+            'dateModified': data.updatedAt || data.publishedAt || new Date().toISOString(),
             'author': data.authorName ? { '@type': 'Person', 'name': data.authorName } : undefined,
             'publisher': { '@type': 'Organization', 'name': 'Webnexa AI' },
             'mainEntityOfPage': { '@type': 'WebPage', '@id': window.location.origin + `/blog/${data.slug}` },
@@ -324,7 +324,7 @@ const BlogDetail = () => {
 
         {blog.coverImageUrl && (
           <figure className="mb-10">
-            <img src={blog.coverImageUrl} alt={blog.coverImageAlt || blog.title} className="w-full rounded-xl shadow-xl" loading="lazy" />
+            <img src={blog.coverImageUrl} alt={blog.coverImageAlt || blog.title} className="w-full rounded-xl shadow-xl" loading="lazy" width="1200" height="630" decoding="async" />
             {blog.coverImageAlt && <figcaption className="mt-2 text-sm text-slate-500">{blog.coverImageAlt}</figcaption>}
           </figure>
         )}
