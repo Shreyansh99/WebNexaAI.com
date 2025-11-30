@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Webnexa AI Blog</title>
+    <link>https://webnexaai.com/blog</link>
+    <description>AI Automation insights</description>
+    
+    <item>
+      <title>test</title>
+      <link>https://webnexaai.com/blog/test</link>
+      <description>hi</description>
+      <pubDate>Mon, 24 Nov 2025 23:17:37 GMT</pubDate>
+      <guid>https://webnexaai.com/blog/test</guid>
+    </item>
+  </channel>
+</rss>

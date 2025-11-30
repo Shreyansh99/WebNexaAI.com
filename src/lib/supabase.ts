@@ -79,15 +79,20 @@ export function setPageMeta({ title, description, url, image }: { title: string;
   };
   if (title) og('og:title', title);
   if (description) og('og:description', description);
-  if (url) og('og:url', url);
-  if (image) og('og:image', image);
+  const origin = (window.location && window.location.origin) || 'https://webnexaai.com';
+  const absoluteUrl = url ? (url.startsWith('http') ? url : origin + url) : window.location.href;
+  og('og:url', absoluteUrl);
+  if (image) {
+    const absoluteImage = image.startsWith('http') ? image : origin + image;
+    og('og:image', absoluteImage);
+  }
   let link = document.querySelector("link[rel='canonical']") as HTMLLinkElement | null;
   if (!link) {
     link = document.createElement('link');
     link.setAttribute('rel', 'canonical');
     document.head.appendChild(link);
   }
-  link.setAttribute('href', url || window.location.href);
+  link.setAttribute('href', absoluteUrl);
 }
 
 export function injectJsonLd(json: Record<string, any>) {

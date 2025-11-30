@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-seo.mjs",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate:seo": "node scripts/generate-seo.mjs"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",

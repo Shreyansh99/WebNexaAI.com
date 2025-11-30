@@ -992,6 +992,7 @@ const Footer = () => {
               <a href="#" className="text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white font-semibold transition-colors">Services</a>
               <a href="#" className="text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white font-semibold transition-colors">Process</a>
               <a href="#" className="text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white font-semibold transition-colors">About</a>
+              <a href="/rss.xml" className="text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white font-semibold transition-colors">RSS Feed</a>
             </div>
             <div className="flex flex-col gap-6">
               <span className="text-slate-400 text-xs font-bold uppercase tracking-widest">Services</span>
